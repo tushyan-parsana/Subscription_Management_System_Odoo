@@ -51,7 +51,85 @@ function readSaved(key) {
   }
 }
 
+function Login({ onLogin }) {
+  const [error, setError] = useState("");
+  const [registering, setRegistering] = useState(false);
+
+  function submit(event) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(event.currentTarget));
+    if (!values.email || !values.password) {
+      setError("Enter your email and password to continue.");
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      setError("Enter a valid work email address.");
+      return;
+    }
+    localStorage.setItem("brightloop-authenticated", "true");
+    onLogin();
+  }
+
+  function register(event) {
+    event.preventDefault();
+    const values = Object.fromEntries(new FormData(event.currentTarget));
+    if (values.password !== values.confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (String(values.password).length < 8) {
+      setError("Your password must be at least 8 characters.");
+      return;
+    }
+    localStorage.setItem("brightloop-user", JSON.stringify({ name: values.name.trim(), email: values.email.trim() }));
+    localStorage.setItem("brightloop-authenticated", "true");
+    onLogin();
+  }
+
+  if (registering) {
+    return (
+      <div className="auth-shell">
+        <div className="auth-decoration"><div className="auth-orbit orbit-one" /><div className="auth-orbit orbit-two" /><div className="auth-glow" /><div className="auth-quote"><span>✦</span><strong>Start building<br />better retention.</strong><small>Bring your products, plans, and customer relationships together.</small></div></div>
+        <main className="auth-card">
+          <div className="auth-brand"><div className="brand-mark">B</div><span>brightloop</span></div>
+          <div className="auth-copy"><p className="eyebrow">Create workspace access</p><h1>Create your account</h1><p className="muted">Set up your Brightloop administrator profile to get started.</p></div>
+          <form className="auth-form" onSubmit={register}>
+            <label>Full name<input required minLength="2" name="name" placeholder="Alex Morgan" autoComplete="name" /></label>
+            <label>Work email<input required type="email" name="email" placeholder="you@company.com" autoComplete="email" /></label>
+            <label>Password<input required minLength="8" type="password" name="password" placeholder="At least 8 characters" autoComplete="new-password" /></label>
+            <label>Confirm password<input required minLength="8" type="password" name="confirmPassword" placeholder="Repeat your password" autoComplete="new-password" /></label>
+            {error && <p className="auth-error" role="alert">{error}</p>}
+            <button className="primary-button auth-submit" type="submit">Create account <span>→</span></button>
+          </form>
+          <p className="auth-footer">Already have an account? <button className="auth-link-button" onClick={() => { setRegistering(false); setError(""); }}>Sign in</button></p>
+          <small className="auth-legal">By continuing, you agree to Brightloop’s Terms and Privacy Policy.</small>
+        </main>
+      </div>
+    );
+  }
+
+  return (
+    <div className="auth-shell">
+      <div className="auth-decoration"><div className="auth-orbit orbit-one" /><div className="auth-orbit orbit-two" /><div className="auth-glow" /><div className="auth-quote"><span>✦</span><strong>Make recurring revenue<br />feel effortless.</strong><small>One calm workspace for every customer relationship.</small></div></div>
+      <main className="auth-card">
+        <div className="auth-brand"><div className="brand-mark">B</div><span>brightloop</span></div>
+        <div className="auth-copy"><p className="eyebrow">Workspace login</p><h1>Welcome back</h1><p className="muted">Sign in to manage your subscriptions and customer revenue.</p></div>
+        <form className="auth-form" onSubmit={submit}>
+          <label>Work email<input required type="email" name="email" placeholder="you@company.com" autoComplete="email" /></label>
+          <label>Password<div className="password-field"><input required minLength="6" type="password" name="password" placeholder="Enter your password" autoComplete="current-password" /><button type="button" aria-label="Show password" onClick={(event) => { const input = event.currentTarget.previousElementSibling; input.type = input.type === "password" ? "text" : "password"; }}>◉</button></div></label>
+          <div className="auth-options"><label className="checkbox-label"><input type="checkbox" name="remember" /> Remember me</label><a href="#forgot">Forgot password?</a></div>
+          {error && <p className="auth-error" role="alert">{error}</p>}
+          <button className="primary-button auth-submit" type="submit">Sign in <span>→</span></button>
+        </form>
+        <p className="auth-footer">Don’t have an account? <button className="auth-link-button" onClick={() => { setRegistering(true); setError(""); }}>Create an account</button></p>
+        <small className="auth-legal">By continuing, you agree to Brightloop’s Terms and Privacy Policy.</small>
+      </main>
+    </div>
+  );
+}
+
 export default function App() {
+  const [authenticated, setAuthenticated] = useState(() => localStorage.getItem("brightloop-authenticated") === "true");
   const [active, setActive] = useState("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [modal, setModal] = useState(null);
@@ -95,6 +173,13 @@ export default function App() {
     setTimeout(() => setNotice(""), 3200);
   }
 
+  if (!authenticated) return <Login onLogin={() => setAuthenticated(true)} />;
+
+  function logout() {
+    localStorage.removeItem("brightloop-authenticated");
+    setAuthenticated(false);
+  }
+
   return (
     <div className="app-shell">
       <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
@@ -103,7 +188,7 @@ export default function App() {
         <nav className="main-nav" aria-label="Main navigation">
           {["Workspace", "Management"].map((group) => <div key={group}><p className={`nav-label ${group === "Management" ? "secondary-label" : ""}`}>{group}</p>{modules.filter((item) => item.group === group).map((item) => <button key={item.id} className={`nav-item ${active === item.id ? "active" : ""}`} onClick={() => navigate(item.id)}><span className="nav-icon">{item.icon}</span>{item.label}{item.id === "subscriptions" && <span className="nav-count">24</span>}{item.id === "invoices" && <span className="nav-count warm">3</span>}</button>)}</div>)}
         </nav>
-        <div className="sidebar-bottom"><div className="odoo-status"><span className="status-dot"></span><div><strong>Odoo connected</strong><small>Synced 8 min ago</small></div><span className="sync-icon">↗</span></div><button className="nav-item"><span className="nav-icon">⚙</span> Settings</button><div className="profile"><div className="profile-avatar">AM</div><div><strong>Alex Morgan</strong><small>Administrator</small></div><span className="more">•••</span></div></div>
+        <div className="sidebar-bottom"><div className="odoo-status"><span className="status-dot"></span><div><strong>Odoo connected</strong><small>Synced 8 min ago</small></div><span className="sync-icon">↗</span></div><button className="nav-item"><span className="nav-icon">⚙</span> Settings</button><div className="profile"><div className="profile-avatar">AM</div><div><strong>Alex Morgan</strong><small>Administrator</small></div><button className="logout-button" onClick={logout} aria-label="Log out">↪</button></div></div>
       </aside>
       <main className="main-content">
         <header className="topbar"><button className="mobile-menu" onClick={() => setSidebarOpen((open) => !open)}>☰</button><div className="breadcrumb"><span>Workspace</span><b>/</b><strong>{currentModule.label}</strong></div><div className="topbar-actions"><button className="icon-button">?</button><button className="icon-button notification">♢<i></i></button><div className="topbar-avatar">AM</div></div></header>
