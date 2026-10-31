@@ -8,7 +8,7 @@ import odooRoutes from "./modules/odoo.routes";
 import { errorHandler } from "./middleware/error.middleware";
 
 const app = express();
-app.use(cors({ origin: env.frontendUrl }));
+app.use(cors({ origin: [env.frontendUrl, "https://subscriptionmanagementsystemodoo.vercel.app", "http://localhost:5173"] }));
 app.use(express.json({ limit: "1mb" }));
 app.get("/", (_req, res) => res.json({ success: true, message: "Brightloop API is running", data: null }));
 app.get("/api/health", (_req, res) => res.json({ success: true, message: "Healthy", data: { service: "Brightloop Backend" } }));
