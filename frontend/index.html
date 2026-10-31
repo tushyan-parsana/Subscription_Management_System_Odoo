@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Brightloop subscription management dashboard" />
+    <title>Brightloop — Subscription management</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar">
+        <div class="brand">
+          <div class="brand-mark">B</div>
+          <span>brightloop</span>
+        </div>
+        <div class="workspace-switcher">
+          <div class="workspace-avatar">BS</div>
+          <div><strong>Brightloop Software</strong><small>Workspace</small></div>
+          <span class="chevron">⌄</span>
+        </div>
+        <nav class="main-nav" aria-label="Main navigation">
+          <p class="nav-label">Workspace</p>
+          <button class="nav-item active" data-view="Overview"><span class="nav-icon">⌂</span> Overview</button>
+          <button class="nav-item" data-view="Subscriptions"><span class="nav-icon">↻</span> Subscriptions <span class="nav-count">24</span></button>
+          <button class="nav-item" data-view="Customers"><span class="nav-icon">♙</span> Customers</button>
+          <button class="nav-item" data-view="Invoices"><span class="nav-icon">▤</span> Invoices <span class="nav-count warm">3</span></button>
+          <p class="nav-label secondary-label">Manage</p>
+          <button class="nav-item" data-view="Plans"><span class="nav-icon">◇</span> Plans &amp; products</button>
+          <button class="nav-item" data-view="Analytics"><span class="nav-icon">⌁</span> Analytics</button>
+          <button class="nav-item" data-view="Integrations"><span class="nav-icon">⌘</span> Integrations</button>
+        </nav>
+        <div class="sidebar-bottom">
+          <div class="odoo-status"><span class="status-dot"></span><div><strong>Odoo connected</strong><small>Synced 8 min ago</small></div><span class="sync-icon">↗</span></div>
+          <button class="nav-item"><span class="nav-icon">⚙</span> Settings</button>
+          <div class="profile"><div class="profile-avatar">AM</div><div><strong>Alex Morgan</strong><small>Administrator</small></div><span class="more">•••</span></div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <button class="mobile-menu" id="menuToggle" aria-label="Toggle menu">☰</button>
+          <div class="breadcrumb"><span>Workspace</span><b>/</b><strong id="pageTitle">Overview</strong></div>
+          <div class="topbar-actions">
+            <button class="icon-button" aria-label="Help">?</button>
+            <button class="icon-button notification" aria-label="Notifications">♢<i></i></button>
+            <div class="topbar-avatar">AM</div>
+          </div>
+        </header>
+
+        <div class="page">
+          <section class="page-intro">
+            <div>
+              <p class="eyebrow">Saturday, October 31, 2026</p>
+              <h1 id="greeting">Good morning, Alex <span>✦</span></h1>
+              <p class="muted">Here’s what’s happening with your subscriptions today.</p>
+            </div>
+            <button class="primary-button" id="openModal"><span>＋</span> New subscription</button>
+          </section>
+
+          <section class="stats-grid" aria-label="Business metrics">
+            <article class="stat-card">
+              <div class="stat-heading"><span>Monthly recurring revenue</span><span class="stat-icon mint">↗</span></div>
+              <strong class="stat-number">$48,290</strong>
+              <div class="stat-footer"><span class="positive">↑ 12.5%</span><span>vs. last month</span></div>
+              <div class="sparkline mint-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-heading"><span>Active subscriptions</span><span class="stat-icon lavender">↻</span></div>
+              <strong class="stat-number">284</strong>
+              <div class="stat-footer"><span class="positive">↑ 8.2%</span><span>vs. last month</span></div>
+              <div class="sparkline purple-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-heading"><span>Churn rate</span><span class="stat-icon peach">⌁</span></div>
+              <strong class="stat-number">2.4%</strong>
+              <div class="stat-footer"><span class="positive">↓ 0.6%</span><span>vs. last month</span></div>
+              <div class="sparkline orange-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </article>
+            <article class="stat-card">
+              <div class="stat-heading"><span>Outstanding invoices</span><span class="stat-icon blue">▤</span></div>
+              <strong class="stat-number">$12,840</strong>
+              <div class="stat-footer"><span class="negative">↑ 4.1%</span><span>vs. last month</span></div>
+              <div class="sparkline blue-line"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            </article>
+          </section>
+
+          <section class="dashboard-grid">
+            <article class="panel revenue-panel">
+              <div class="panel-header"><div><h2>Revenue overview</h2><p class="muted">Monthly recurring revenue</p></div><button class="select-button">Last 6 months <span>⌄</span></button></div>
+              <div class="chart-wrap">
+                <div class="y-axis"><span>$50k</span><span>$40k</span><span>$30k</span><span>$20k</span><span>$10k</span><span>$0</span></div>
+                <div class="chart"><div class="grid-lines"><i></i><i></i><i></i><i></i><i></i><i></i></div><svg viewBox="0 0 640 225" preserveAspectRatio="none" aria-label="Revenue chart"><defs><linearGradient id="area" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#6857f5" stop-opacity=".2"/><stop offset="100%" stop-color="#6857f5" stop-opacity="0"/></linearGradient></defs><path class="area" d="M0,178 C42,175 60,158 100,164 S156,150 200,142 S253,112 294,123 S343,132 390,102 S446,110 486,76 S550,92 585,54 S620,48 640,28 L640,225 L0,225 Z"/><path class="line" d="M0,178 C42,175 60,158 100,164 S156,150 200,142 S253,112 294,123 S343,132 390,102 S446,110 486,76 S550,92 585,54 S620,48 640,28"/><circle cx="486" cy="76" r="5"/><g class="tooltip"><rect x="453" y="12" rx="6" width="70" height="28"/><text x="488" y="30">$42,890</text></g></svg><div class="x-axis"><span>May</span><span>Jun</span><span>Jul</span><span>Aug</span><span>Sep</span><span>Oct</span></div></div>
+              </div>
+            </article>
+            <article class="panel health-panel">
+              <div class="panel-header"><div><h2>Subscription health</h2><p class="muted">Current status breakdown</p></div><button class="dots">•••</button></div>
+              <div class="donut-wrap"><div class="donut"><div><strong>284</strong><small>Total</small></div></div><div class="legend"><span><i class="dot active-dot"></i>Active <b>236</b></span><span><i class="dot trial-dot"></i>Trial <b>32</b></span><span><i class="dot paused-dot"></i>Paused <b>9</b></span><span><i class="dot canceled-dot"></i>Canceled <b>7</b></span></div></div>
+              <div class="health-note"><span>✦</span><div><strong>Great momentum</strong><small>Your active subscriptions grew by 8.2% this month.</small></div></div>
+            </article>
+          </section>
+
+          <section class="panel subscriptions-panel">
+            <div class="panel-header"><div><h2>Recent subscriptions</h2><p class="muted">Keep track of your latest customer activity</p></div><button class="text-button" id="viewAll">View all <span>→</span></button></div>
+            <div class="table-toolbar"><div class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search subscriptions..." /></div><button class="filter-button" id="filterButton">☷ Filters <span class="filter-badge">2</span></button></div>
+            <div class="table-scroll"><table><thead><tr><th>Customer</th><th>Plan</th><th>Amount</th><th>Next billing</th><th>Status</th><th></th></tr></thead><tbody id="subscriptionRows">
+              <tr><td><div class="customer"><span class="customer-avatar violet">OR</span><div><strong>Olivia Rhye</strong><small>olivia@untitled.co</small></div></div></td><td>Enterprise <small>Annual</small></td><td><strong>$2,400.00</strong><small>per year</small></td><td>Nov 14, 2026</td><td><span class="status active">Active</span></td><td><button class="row-menu">•••</button></td></tr>
+              <tr><td><div class="customer"><span class="customer-avatar yellow">PH</span><div><strong>Phoenix Baker</strong><small>phoenix@acme.co</small></div></div></td><td>Growth <small>Monthly</small></td><td><strong>$299.00</strong><small>per month</small></td><td>Nov 08, 2026</td><td><span class="status trial">Trial</span></td><td><button class="row-menu">•••</button></td></tr>
+              <tr><td><div class="customer"><span class="customer-avatar blue-avatar">CW</span><div><strong>Candice Wu</strong><small>candice@finery.co</small></div></div></td><td>Starter <small>Monthly</small></td><td><strong>$89.00</strong><small>per month</small></td><td>Nov 03, 2026</td><td><span class="status active">Active</span></td><td><button class="row-menu">•••</button></td></tr>
+              <tr><td><div class="customer"><span class="customer-avatar pink">KM</span><div><strong>Kelly Martinez</strong><small>kelly@lattice.co</small></div></div></td><td>Growth <small>Annual</small></td><td><strong>$2,990.00</strong><small>per year</small></td><td>Oct 31, 2026</td><td><span class="status overdue">Past due</span></td><td><button class="row-menu">•••</button></td></tr>
+            </tbody></table></div>
+          </section>
+          <footer><span>© 2026 Brightloop Software</span><span><a href="#">Help center</a><a href="#">Privacy</a><a href="#">Terms</a></span></footer>
+        </div>
+      </main>
+    </div>
+    <div class="modal-backdrop" id="modalBackdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="close-modal" id="closeModal">×</button><div class="modal-icon">↻</div><h2 id="modalTitle">Create subscription</h2><p class="muted">Add a new customer subscription to your workspace.</p><form id="subscriptionForm"><label>Customer name<input required name="customer" placeholder="e.g. Taylor Smith" /></label><label>Email address<input required type="email" name="email" placeholder="taylor@company.com" /></label><label>Plan<select name="plan"><option>Growth · Monthly</option><option>Starter · Monthly</option><option>Enterprise · Annual</option></select></label><div class="modal-actions"><button type="button" class="secondary-button" id="cancelModal">Cancel</button><button class="primary-button" type="submit">Create subscription</button></div></form></div></div>
+    <div class="toast" id="toast"><span>✓</span><div><strong>Subscription created</strong><small>It has been added to your recent activity.</small></div></div>
+    <script src="app.js"></script>
+  </body>
+</html>
