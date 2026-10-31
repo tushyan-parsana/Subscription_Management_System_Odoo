@@ -126,10 +126,9 @@ router.get("/dashboard/stats", requireRoles(Role.ADMIN, Role.STAFF), async (req,
     prisma.payment.aggregate({ _sum: { amount: true }, where: { paidAt: { ...(since ? { gte: since } : {}), ...(until ? { lte: until } : {}) } } }),
     prisma.invoice.aggregate({ _sum: { totalAmount: true }, where: { ...invoiceWhere, status: { in: [InvoiceStatus.CONFIRMED, InvoiceStatus.PARTIALLY_PAID, InvoiceStatus.OVERDUE] } } }),
     prisma.invoice.count({ where: { status: InvoiceStatus.OVERDUE } }),
-    prisma.subscription.groupBy({ by: ["status"], _count: { _all: true } }),
+    prisma.subscription.groupBy({ by: ["status"], orderBy: { status: "asc" }, _count: { _all: true } }),
   ]);
   return result(res, { totalCustomers: customers, activeSubscriptions, totalSubscriptions, revenueCollected: paid._sum.amount || 0, outstandingAmount: outstanding._sum.totalAmount || 0, overdueInvoices: overdue, subscriptionStatusDistribution: distribution });
 });
 
 export default router;
-
